@@ -33,10 +33,23 @@
 
         /* Dashboard Styles */
         .dashboard-container { width: 95%; max-width: 1000px; background: var(--bg-card); border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); padding: 20px; display: none; border: 1px solid var(--border-color); }
+        
+        /* Header Styling */
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px; }
         .header h2 { color: var(--text-main); margin: 0; }
         .header-right { display: flex; align-items: center; gap: 10px; }
         .logout-btn { background: var(--bg-input); border: 1px solid var(--border-color); padding: 8px 15px; border-radius: 5px; cursor: pointer; color: var(--text-muted); }
+
+        /* Welcome Message Styling (New) */
+        .welcome-container { display: flex; flex-direction: column; align-items: flex-end; margin-right: 10px; }
+        .welcome-text { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .user-name-display {
+            font-size: 22px; font-weight: 700; 
+            /* Gradient Effect */
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         
         /* Filters */
         .filter-bar { margin-bottom: 20px; display: flex; gap: 15px; align-items: center; background: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); }
@@ -52,8 +65,10 @@
         @media (max-width: 600px) { .main-stats { grid-template-columns: 1fr; } }
         
         .card { background: var(--bg-main); padding: 20px; border-radius: 8px; border-left: 5px solid var(--accent-blue); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .card-title { color: var(--text-muted); font-size: 18px; font-weight: 700; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 15px; }
+        
+        /* Increased Font Sizes */
+        .card-title { color: var(--text-muted); font-size: 20px; font-weight: 700; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 17px; }
         .stat-label { color: var(--text-muted); }
         .stat-value { font-weight: 700; color: var(--accent-blue); }
         
@@ -64,7 +79,7 @@
 
         /* Unit Section */
         .unit-section { background: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); }
-        .unit-section h3 { margin-top: 0; font-size: 16px; color: var(--text-muted); margin-bottom: 15px; }
+        .unit-section h3 { margin-top: 0; font-size: 18px; color: var(--text-muted); margin-bottom: 15px; }
         
         .unit-row { 
             display: flex; justify-content: space-between; align-items: center; padding: 12px; 
@@ -72,15 +87,15 @@
             cursor: pointer; transition: all 0.2s;
         }
         .unit-row:hover { background: #2a2a2a; border-color: var(--accent-blue); }
-        .unit-name { font-weight: 500; color: var(--text-main); }
-        .unit-count { font-weight: 700; color: var(--accent-blue); font-size: 18px; }
+        .unit-name { font-weight: 500; color: var(--text-main); font-size: 18px; }
+        .unit-count { font-weight: 700; color: var(--accent-blue); font-size: 22px; }
 
-        /* Modal Styles (Centered & Dark) */
+        /* Modal Styles */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0, 0, 0, 0.85); 
             display: none; 
-            justify-content: center; align-items: center; /* Centering Happens Here */
+            justify-content: center; align-items: center; 
             z-index: 1000; 
         }
         .modal-content {
@@ -105,7 +120,6 @@
         }
         .modal-close:hover { opacity: 1; }
         
-        /* Detail Box inside Modal */
         .detail-box { margin-bottom: 15px; }
         .detail-header { font-weight: 700; font-size: 14px; color: var(--text-muted); margin-bottom: 5px; display: flex; align-items: center; }
         .detail-header.lidar { color: var(--accent-green); }
@@ -136,7 +150,7 @@
 
     <!-- Login -->
     <div id="loginSection" class="login-container">
-        <h2><i class="fas fa-user-shield"></i> Shift Supervisor Login</h2>
+        <h2><i class="fas fa-user-shield"></i> Supervisor Login</h2>
         <input type="text" id="username" placeholder="Username">
         <input type="password" id="password" placeholder="Password">
         <button class="login-btn" onclick="attemptLogin()">Sign In</button>
@@ -148,8 +162,12 @@
         <div class="header">
             <h2>Dashboard Overview</h2>
             <div class="header-right">
-                <span id="welcomeUser">Welcome, User</span>
-                <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                <!-- New Welcome Structure -->
+                <div class="welcome-container">
+                    <span class="welcome-text">Welcome Back,</span>
+                    <span id="userNameDisplay" class="user-name-display">User</span>
+                </div>
+                <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
 
@@ -174,7 +192,8 @@
         <div class="main-stats">
             <div class="card total">
                 <div class="card-title">Total Tasks</div>
-                <div style="font-size: 30px; color: var(--accent-blue); font-weight: bold;" id="totalTasks">0</div>
+                <!-- Increased Font Size Inline for Total -->
+                <div style="font-size: 36px; color: var(--accent-blue); font-weight: bold;" id="totalTasks">0</div>
             </div>
 
             <div class="card lidar">
@@ -224,7 +243,10 @@
                         currentUser = response.username;
                         $('#loginSection').hide();
                         $('#dashboardSection').show();
-                        $('#welcomeUser').text("Welcome, " + currentUser);
+                        
+                        // Updated Welcome Logic
+                        $('#userNameDisplay').text(currentUser);
+                        
                         fetchStats();
                         clearInterval(refreshInterval);
                         refreshInterval = setInterval(fetchStats, 15000);
@@ -302,8 +324,6 @@
             `;
             
             $('#modalBody').html(bodyHtml);
-            
-            // Correct way to show Flexbox centering with jQuery
             $('#unitModal').css('display', 'flex').hide().fadeIn(200);
         }
 
