@@ -8,11 +8,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        /* ====== قاعدة سحرية لمنع تشفيت الشاشة ====== */
         * { box-sizing: border-box; }
         html, body { max-width: 100%; overflow-x: hidden; }
 
-        /* ====== Dark Theme Variables ====== */
         :root {
             --bg-main: #121212;
             --bg-card: #1e1e1e;
@@ -22,6 +20,7 @@
             --accent-blue: #8ab4f8;
             --accent-green: #81c995;
             --accent-red: #f28b82;
+            --accent-gold: #fbbc04; /* لون جديد لقسم الإجمالي */
             --border-color: #3c4043;
         }
 
@@ -38,18 +37,16 @@
         /* Dashboard Styles */
         .dashboard-container { width: 100%; max-width: 1000px; background: var(--bg-card); border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); padding: 25px; display: none; border: 1px solid var(--border-color); }
         
-        /* Header Styling */
+        /* Header & Filters */
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
         .header h2 { color: var(--text-main); margin: 0; }
         .header-right { display: flex; align-items: center; gap: 10px; }
         .logout-btn { background: var(--bg-input); border: 1px solid var(--border-color); padding: 8px 15px; border-radius: 5px; cursor: pointer; color: var(--text-muted); }
 
-        /* Welcome Message Styling */
         .welcome-container { display: flex; flex-direction: column; align-items: flex-end; margin-right: 10px; }
         .welcome-text { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
         .user-name-display { font-size: 22px; font-weight: 700; background: linear-gradient(90deg, var(--accent-blue), var(--accent-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Filters */
         .filter-bar { margin-bottom: 20px; display: flex; gap: 15px; align-items: flex-end; background: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap; }
         .filter-group { display: flex; flex-direction: column; flex: 1; min-width: 140px; }
         .filter-group label { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; }
@@ -58,34 +55,52 @@
         .status-dot { height: 8px; width: 8px; background-color: var(--accent-green); border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
         
-        /* Reload Indicator */
         .reload-indicator { display: inline-flex; align-items: center; gap: 5px; color: var(--accent-blue); font-size: 12px; background: rgba(138, 180, 248, 0.1); padding: 4px 8px; border-radius: 20px; transition: opacity 0.3s; }
         .reload-indicator i { animation: spin 1s linear infinite; font-size: 10px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* تأثير البهتان وقت تحميل الداتا */
-        .main-stats, .unit-section { transition: opacity 0.3s ease; }
+        .main-stats, .unit-section, .summary-section { transition: opacity 0.3s ease; }
         .fetching-data { opacity: 0.4; pointer-events: none; }
 
-        /* Stats Cards */
+        /* Stats Cards (القديم زي ما هو) */
         .main-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .card { background: var(--bg-main); padding: 20px; border-radius: 8px; border-left: 5px solid var(--accent-blue); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .card-title { color: var(--text-muted); font-size: 20px; font-weight: 700; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
         .stat-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 17px; }
         .stat-label { color: var(--text-muted); }
         .stat-value { font-weight: 700; color: var(--accent-blue); }
-        
         .card.lidar { border-left-color: var(--accent-green); }
         .card.lane { border-left-color: var(--accent-red); }
         .card.total { border-left-color: var(--accent-blue); grid-column: span 2; text-align: center; }
 
-        /* Unit Section */
-        .unit-section { background: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); }
+        /* Unit Section (القديم زي ما هو) */
+        .unit-section { background: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px; }
         .unit-section h3 { margin-top: 0; font-size: 18px; color: var(--text-muted); margin-bottom: 15px; }
         .unit-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-card); margin-bottom: 5px; border-radius: 4px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s; }
         .unit-row:hover { background: #2a2a2a; border-color: var(--accent-blue); }
         .unit-name { font-weight: 500; color: var(--text-main); font-size: 18px; }
         .unit-count { font-weight: 700; color: var(--accent-blue); font-size: 22px; }
+
+        /* ==================================================== */
+        /* القسم الجديد: GT Project Summary */
+        /* ==================================================== */
+        .summary-section { background: var(--bg-main); border-radius: 8px; border: 1px solid var(--accent-gold); overflow: hidden; }
+        .summary-header { background: rgba(251, 188, 4, 0.1); padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; }
+        .summary-header:hover { background: rgba(251, 188, 4, 0.2); }
+        .summary-header h3 { margin: 0; font-size: 16px; color: var(--accent-gold); display: flex; align-items: center; gap: 10px; }
+        .summary-total-badge { background: var(--accent-gold); color: #000; padding: 2px 10px; border-radius: 12px; font-size: 14px; font-weight: bold; }
+        .summary-content { padding: 20px; display: none; background: var(--bg-card); border-top: 1px solid var(--border-color); }
+        
+        .shift-summary-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+        .shift-summary-card { background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 6px; padding: 15px; }
+        .shift-summary-card h4 { margin: 0 0 15px 0; color: var(--text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;}
+        .shift-summary-card h4 span { font-size: 14px; background: var(--bg-input); padding: 3px 8px; border-radius: 4px; color: var(--accent-blue); }
+        
+        .sum-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; color: var(--text-muted); }
+        .sum-row strong { color: var(--text-main); }
+        .sum-title { font-size: 12px; font-weight: bold; margin-top: 10px; margin-bottom: 5px; display: block; }
+        .sum-title.lidar { color: var(--accent-green); }
+        .sum-title.lane { color: var(--accent-red); }
 
         /* Modal & Loaders */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 1000; }
@@ -106,18 +121,16 @@
         .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18,18,18,0.9); display: none; justify-content: center; align-items: center; z-index: 999; }
         .spinner { border: 4px solid var(--border-color); border-top: 4px solid var(--accent-blue); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
 
-        /* ================================================= */
-        /* تعديلات شاشات الموبايل (Responsive Media Queries) */
-        /* ================================================= */
+        @media (max-width: 768px) { 
+            .shift-summary-grid { grid-template-columns: 1fr; }
+        }
         @media (max-width: 600px) { 
             body { padding: 10px; }
             .dashboard-container { padding: 15px; }
             .main-stats { grid-template-columns: 1fr; }
             .card.total { grid-column: span 1; }
-            
             .header { flex-direction: column; align-items: center; text-align: center; }
             .header-right { width: 100%; justify-content: space-between; margin-top: 10px; }
-            
             .filter-bar { flex-direction: column; align-items: stretch; gap: 10px; }
             .filter-group { width: 100%; }
             .status-indicator { width: 100%; justify-content: center; margin-top: 5px; }
@@ -182,7 +195,7 @@
 
         <div class="main-stats">
             <div class="card total">
-                <div class="card-title">Total Tasks</div>
+                <div class="card-title">Selected Shift Tasks</div>
                 <div style="font-size: 36px; color: var(--accent-blue); font-weight: bold;" id="totalTasks">0</div>
             </div>
 
@@ -203,7 +216,53 @@
             <h3><i class="fas fa-door-open"></i> Room/Unit Summary (Click for details)</h3>
             <div id="unitDetails"></div>
         </div>
-    </div>
+
+        <div class="summary-section">
+            <div class="summary-header" onclick="toggleSummary()">
+                <h3><i class="fas fa-chart-pie"></i> GT Project – Total Submitted Tasks Summary (24H)</h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="summary-total-badge" id="dailyTotalTasks">0</span>
+                    <i class="fas fa-chevron-down" id="summaryIcon" style="color: var(--accent-gold);"></i>
+                </div>
+            </div>
+            
+            <div class="summary-content" id="summaryContent">
+                <div class="shift-summary-grid">
+                    
+                    <div class="shift-summary-card">
+                        <h4>Morning <span id="sumMornTotal">0</span></h4>
+                        <span class="sum-title lidar">LIDAR</span>
+                        <div class="sum-row"><span>FP:</span> <strong id="sumMornLidarFp">0</strong></div>
+                        <div class="sum-row"><span>QA:</span> <strong id="sumMornLidarQa">0</strong></div>
+                        <span class="sum-title lane">LANE LINE</span>
+                        <div class="sum-row"><span>FP:</span> <strong id="sumMornLaneFp">0</strong></div>
+                        <div class="sum-row"><span>QA:</span> <strong id="sumMornLaneQa">0</strong></div>
+                    </div>
+
+                    <div class="shift-summary-card">
+                        <h4>Night <span id="sumNightTotal">0</span></h4>
+                        <span class="sum-title lidar">LIDAR</span>
+                        <div class="sum-row"><span>FP:</span> <strong id="sumNightLidarFp">0</strong></div>
+                        <div class="sum-row"><span>QA:</span> <strong id="sumNightLidarQa">0</strong></div>
+                        <span class="sum-title lane">LANE LINE</span>
+                        <div class="sum-row"><span>FP:</span> <strong id="sumNightLaneFp">0</strong></div>
+                        <div class="sum-row"><span>QA:</span> <strong id="sumNightLaneQa">0</strong></div>
+                    </div>
+
+                    <div class="shift-summary-card">
+                        <h4>Overnight <span id="sumOverTotal">0</span></h4>
+                        <span class="sum-title lidar">LIDAR</span>
+                        <div class="sum-row"><span>FP:</span> <strong id="sumOverLidarFp">0</strong></div>
+                        <div class="sum-row"><span>QA:</span> <strong id="sumOverLidarQa">0</strong></div>
+                        <span class="sum-title lane">LANE LINE</span>
+                        <div class="sum-row"><span>FP:</span> <strong id="sumOverLaneFp">0</strong></div>
+                        <div class="sum-row"><span>QA:</span> <strong id="sumOverLaneQa">0</strong></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -223,13 +282,18 @@
             $('#taskDate').val(dateStr);
         });
 
+        // Toggle GT Project Summary
+        function toggleSummary() {
+            $('#summaryContent').slideToggle(300);
+            $('#summaryIcon').toggleClass('fa-chevron-down fa-chevron-up');
+        }
+
         function attemptLogin() {
             const user = $('#username').val().trim();
             const pass = $('#password').val().trim();
             if(!user || !pass) return;
 
             showLoading(true);
-            
             const loginUrl = `${API_URL}?action=login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`;
             
             fetch(loginUrl)
@@ -237,21 +301,16 @@
                 .then(response => {
                     if (response.success) {
                         currentUser = response.username;
-                        
-                        // التعديل: إخفاء التحميل فوراً وعرض الداش بورد
                         showLoading(false);
                         $('#loginSection').hide();
                         $('#dashboardSection').show();
                         $('#userNameDisplay').text(currentUser);
                         
                         lastTotalTasks = 0; 
-                        
-                        // إظهار تأثير البهتان لحد ما الأرقام تيجي
                         $('#reloadIndicator').fadeIn(200);
-                        $('.main-stats, .unit-section').addClass('fetching-data');
+                        $('.main-stats, .unit-section, .summary-section').addClass('fetching-data');
                         
-                        fetchStats(false); // false لأننا قفلنا التحميل الشاشة الكاملة خلاص
-                        
+                        fetchStats(false); 
                         clearInterval(refreshInterval);
                         refreshInterval = setInterval(() => fetchStats(false), 5000); 
                     } else {
@@ -268,15 +327,10 @@
 
         function handleFilterChange() {
             $('#reloadIndicator').fadeIn(200);
-            $('.main-stats, .unit-section').addClass('fetching-data');
+            $('.main-stats, .unit-section, .summary-section').addClass('fetching-data');
             
-            if (filterChangeTimeout) {
-                clearTimeout(filterChangeTimeout);
-            }
-            
-            filterChangeTimeout = setTimeout(function() {
-                fetchStats(false);
-            }, 300);
+            if (filterChangeTimeout) clearTimeout(filterChangeTimeout);
+            filterChangeTimeout = setTimeout(function() { fetchStats(false); }, 300);
         }
 
         function fetchStats(isInitialLoad = false) {
@@ -288,7 +342,6 @@
 
             const fetchId = ++currentFetchId;
             const fetchContext = rawDate + "_" + shift;
-
             const statsUrl = `${API_URL}?action=getStats&date=${encodeURIComponent(rawDate)}&shift=${encodeURIComponent(shift)}`;
 
             fetch(statsUrl)
@@ -297,7 +350,7 @@
                     if (fetchId !== currentFetchId) return;
 
                     if (isInitialLoad) showLoading(false);
-                    $('.main-stats, .unit-section').removeClass('fetching-data');
+                    $('.main-stats, .unit-section, .summary-section').removeClass('fetching-data');
                     $('#reloadIndicator').fadeOut(200);
 
                     if (response.success) {
@@ -307,10 +360,7 @@
                         }
 
                         const newTotal = response.data.totalTasks;
-                        
-                        if (newTotal < lastTotalTasks) {
-                            return; 
-                        }
+                        if (newTotal < lastTotalTasks) return; 
                         
                         lastTotalTasks = newTotal;
                         cachedData = response.data; 
@@ -320,13 +370,14 @@
                 .catch(error => {
                     if (fetchId !== currentFetchId) return;
                     if (isInitialLoad) showLoading(false);
-                    $('.main-stats, .unit-section').removeClass('fetching-data');
+                    $('.main-stats, .unit-section, .summary-section').removeClass('fetching-data');
                     $('#reloadIndicator').fadeOut(200);
                     console.error("Fetch Stats Error:", error);
                 });
         }
 
         function renderDashboard(data) {
+            // 1. أرقام الشيفت المختار (القديم)
             $('#totalTasks').text(data.totalTasks);
             $('#lidarFp').text(data.lidarFp);
             $('#lidarQa').text(data.lidarQa);
@@ -335,7 +386,6 @@
 
             let unitHtml = '';
             const units = data.byUnit;
-            
             if(Object.keys(units).length > 0){
                 for (let key in units) {
                     unitHtml += `
@@ -345,18 +395,37 @@
                         </div>
                     `;
                 }
-            } else {
-                unitHtml = '<div class="unit-row">No data for this shift yet</div>';
-            }
+            } else { unitHtml = '<div class="unit-row">No data for this shift yet</div>'; }
             $('#unitDetails').html(unitHtml);
+
+            // 2. أرقام إجمالي اليوم (GT Project Summary)
+            if(data.dailySummary) {
+                $('#dailyTotalTasks').text(data.dailySummary.total);
+                
+                $('#sumMornTotal').text(data.dailySummary.morning.total);
+                $('#sumMornLidarFp').text(data.dailySummary.morning.lidarFp);
+                $('#sumMornLidarQa').text(data.dailySummary.morning.lidarQa);
+                $('#sumMornLaneFp').text(data.dailySummary.morning.laneFp);
+                $('#sumMornLaneQa').text(data.dailySummary.morning.laneQa);
+
+                $('#sumNightTotal').text(data.dailySummary.night.total);
+                $('#sumNightLidarFp').text(data.dailySummary.night.lidarFp);
+                $('#sumNightLidarQa').text(data.dailySummary.night.lidarQa);
+                $('#sumNightLaneFp').text(data.dailySummary.night.laneFp);
+                $('#sumNightLaneQa').text(data.dailySummary.night.laneQa);
+
+                $('#sumOverTotal').text(data.dailySummary.overnight.total);
+                $('#sumOverLidarFp').text(data.dailySummary.overnight.lidarFp);
+                $('#sumOverLidarQa').text(data.dailySummary.overnight.lidarQa);
+                $('#sumOverLaneFp').text(data.dailySummary.overnight.laneFp);
+                $('#sumOverLaneQa').text(data.dailySummary.overnight.laneQa);
+            }
         }
 
         function openModal(unitName) {
             const unitData = cachedData.byUnit[unitName];
             if(!unitData) return;
-
             $('#modalTitle').text(unitName);
-            
             let bodyHtml = `
                 <div class="detail-box">
                     <div class="detail-header lidar"><i class="fas fa-circle" style="font-size:8px; margin-right:5px;"></i> LIDAR</div>
@@ -369,27 +438,13 @@
                     <div class="detail-row"><span>QA Tasks</span><strong>${unitData.laneQa}</strong></div>
                 </div>
             `;
-            
             $('#modalBody').html(bodyHtml);
             $('#unitModal').css('display', 'flex').hide().fadeIn(200);
         }
 
-        function closeModal(e) {
-            if(!e || e.target.id === 'unitModal') {
-                $('#unitModal').fadeOut(200);
-            }
-        }
-
-        function showLoading(show) {
-            if(show) $('#loading').css('display', 'flex');
-            else $('#loading').css('display', 'none');
-        }
-
-        function logout() { 
-            clearInterval(refreshInterval);
-            location.reload(); 
-        }
-        
+        function closeModal(e) { if(!e || e.target.id === 'unitModal') $('#unitModal').fadeOut(200); }
+        function showLoading(show) { if(show) $('#loading').css('display', 'flex'); else $('#loading').css('display', 'none'); }
+        function logout() { clearInterval(refreshInterval); location.reload(); }
         $('#password').keypress(function(e) { if(e.which == 13) attemptLogin(); });
     </script>
 </body>
