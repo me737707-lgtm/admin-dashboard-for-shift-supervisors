@@ -11,7 +11,6 @@
         /* ====== قاعدة سحرية لمنع تشفيت الشاشة ====== */
         * { box-sizing: border-box; }
         html, body { max-width: 100%; overflow-x: hidden; }
-        /* =========================================== */
 
         /* ====== Dark Theme Variables ====== */
         :root {
@@ -238,13 +237,20 @@
                 .then(response => {
                     if (response.success) {
                         currentUser = response.username;
+                        
+                        // التعديل: إخفاء التحميل فوراً وعرض الداش بورد
+                        showLoading(false);
                         $('#loginSection').hide();
                         $('#dashboardSection').show();
                         $('#userNameDisplay').text(currentUser);
                         
                         lastTotalTasks = 0; 
                         
-                        fetchStats(true); 
+                        // إظهار تأثير البهتان لحد ما الأرقام تيجي
+                        $('#reloadIndicator').fadeIn(200);
+                        $('.main-stats, .unit-section').addClass('fetching-data');
+                        
+                        fetchStats(false); // false لأننا قفلنا التحميل الشاشة الكاملة خلاص
                         
                         clearInterval(refreshInterval);
                         refreshInterval = setInterval(() => fetchStats(false), 5000); 
