@@ -607,13 +607,22 @@
             `;
 
             // ==========================================
-            // إضافة الملخص الإجمالي للغرفة (QC Contributions)
+            // التعديل الجديد: جعل قسم الـ QC Contributions قابل للطي (Accordion)
             // ==========================================
             if(unitData.roomQcTotals && Object.keys(unitData.roomQcTotals).length > 0) {
+                let qcsCount = Object.keys(unitData.roomQcTotals).length;
+                
                 bodyHtml += `<div class="detail-box" style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 15px;">
-                                <div class="detail-header qc" style="color:var(--accent-blue); margin-bottom:10px;">
-                                    <i class="fas fa-users" style="margin-right:5px;"></i> QC Contributions
-                                </div>`;
+                                
+                                <div class="expandable-row" onclick="$(this).next('.qc-contributions-list').slideToggle(200); $(this).toggleClass('active');" style="border-left: 3px solid var(--accent-blue);">
+                                    <span style="color:var(--accent-blue); font-weight:bold;">
+                                        <i class="fas fa-users" style="margin-right:5px;"></i> QC Contributions 
+                                        <i class="fas fa-chevron-down arrow" style="font-size:10px; margin-left:5px;"></i>
+                                    </span>
+                                    <strong style="color:var(--accent-blue)">${qcsCount} QCs</strong>
+                                </div>
+                                
+                                <div class="qc-contributions-list" style="display: none; margin-top: 8px; padding-left: 5px;">`;
                 
                 // ترتيب الـ QCs من الأعلى للأقل بناءً على الإجمالي
                 const sortedRoomQcs = Object.keys(unitData.roomQcTotals).sort((a,b) => unitData.roomQcTotals[b].total - unitData.roomQcTotals[a].total);
@@ -621,10 +630,10 @@
                 for(let qc of sortedRoomQcs) {
                     let qcData = unitData.roomQcTotals[qc];
                     bodyHtml += `
-                        <div class="detail-row" style="border-left: 3px solid var(--accent-blue); display:flex; flex-direction:column; gap:4px; padding:8px 10px; margin-bottom: 5px;">
+                        <div class="detail-row" style="border-left: 2px solid var(--border-color); display:flex; flex-direction:column; gap:4px; padding:8px 10px; margin-bottom: 5px; background: rgba(0,0,0,0.1);">
                             <div style="display:flex; justify-content:space-between; width:100%;">
                                 <span style="font-weight:500;">${qc}</span>
-                                <strong style="color:var(--accent-blue)">${qcData.total}</strong>
+                                <strong style="color:var(--text-main)">${qcData.total}</strong>
                             </div>
                             <div style="display:flex; justify-content:flex-start; gap:10px; font-size:11px; color:var(--text-muted);">
                                 <span><i class="fas fa-circle" style="color:var(--accent-green); font-size:6px;"></i> Lidar: ${qcData.lidar}</span>
@@ -632,7 +641,7 @@
                             </div>
                         </div>`;
                 }
-                bodyHtml += `</div>`;
+                bodyHtml += `</div></div>`;
             }
 
             $('#modalBody').html(bodyHtml);
