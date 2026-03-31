@@ -63,22 +63,21 @@
         .welcome-text { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
         .user-name-display { font-size: 22px; font-weight: 700; background: linear-gradient(90deg, var(--accent-blue), var(--accent-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .filter-bar { margin-bottom: 20px; display: flex; gap: 15px; align-items: flex-end; background: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap; transition: all 0.3s; }
+        .filter-bar { margin-bottom: 20px; display: flex; gap: 15px; align-items: center; background: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap; transition: all 0.3s; }
         .filter-group { display: flex; flex-direction: column; flex: 1; min-width: 140px; }
         .filter-group label { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; }
         .filter-select, .date-picker { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 5px; font-family: 'Roboto'; cursor: pointer; background: var(--bg-input); color: var(--text-main); transition: all 0.3s; }
         
-        .status-indicator { font-size: 12px; color: var(--text-muted); margin-left: auto; display: flex; align-items: center; gap: 8px; width: auto; font-weight: 500; }
-        .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 2px; }
-        .status-dot.online { background-color: var(--accent-green); animation: pulse 2s infinite; }
-        .status-dot.offline { background-color: var(--accent-red); animation: none; }
-        .network-text.online { color: var(--accent-green); }
-        .network-text.offline { color: var(--accent-red); }
-        @keyframes pulse { 0% { opacity: 1; box-shadow: 0 0 0 0 rgba(129, 201, 149, 0.4); } 70% { opacity: 0.5; box-shadow: 0 0 0 6px rgba(129, 201, 149, 0); } 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(129, 201, 149, 0); } }
+        /* ====== تصميم ويدجت التحديث الجديد (Last Updated Badge) ====== */
+        .update-badge { background: #1a73e8; color: #ffffff; padding: 10px 15px; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3); margin-left: auto; min-width: 220px; }
+        .update-title-row { display: flex; justify-content: space-between; align-items: center; width: 100%; font-size: 12px; opacity: 0.9; margin-bottom: 4px; font-weight: 500; }
+        .update-time { font-size: 16px; font-weight: 700; margin-bottom: 3px; letter-spacing: 0.5px; }
+        .update-next { font-size: 11px; opacity: 0.8; font-family: monospace; }
         
-        .reload-indicator { display: inline-flex; align-items: center; gap: 5px; color: var(--accent-blue); font-size: 12px; background: rgba(138, 180, 248, 0.1); padding: 4px 8px; border-radius: 20px; transition: opacity 0.3s; }
-        .reload-indicator i { animation: spin 1s linear infinite; font-size: 10px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; }
+        .status-dot.online { background-color: #81c995; animation: pulse 2s infinite; box-shadow: 0 0 5px #81c995; }
+        .status-dot.offline { background-color: #f28b82; animation: none; }
+        @keyframes pulse { 0% { opacity: 1; box-shadow: 0 0 0 0 rgba(129, 201, 149, 0.6); } 70% { opacity: 0.5; box-shadow: 0 0 0 6px rgba(129, 201, 149, 0); } 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(129, 201, 149, 0); } }
 
         .main-stats, .unit-section, .summary-section, .achievers-banner { transition: opacity 0.3s ease; }
         .fetching-data { opacity: 0.4; pointer-events: none; }
@@ -133,10 +132,10 @@
         .sum-title.lidar { color: var(--accent-green); }
         .sum-title.lane { color: var(--accent-red); }
 
-        /* ====== Modal & Drill-Down Accordion ====== */
+        /* ====== Modal & Scrollable Lists ====== */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 1000; }
         body.light-mode .modal-overlay { background: rgba(0, 0, 0, 0.5); }
-        .modal-content { background: var(--bg-card); padding: 0; border-radius: 8px; width: 90%; max-width: 360px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); position: relative; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); animation: popIn 0.3s ease-out; transition: background 0.3s; }
+        .modal-content { background: var(--bg-card); padding: 0; border-radius: 8px; width: 90%; max-width: 360px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); position: relative; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); animation: popIn 0.3s ease-out; transition: background 0.3s; }
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .modal-header { background: var(--accent-blue); color: #fff; padding: 15px; text-align: center; flex-shrink: 0; transition: background 0.3s; }
         body:not(.light-mode) .modal-header { color: #000; }
@@ -155,8 +154,20 @@
         .expandable-row i.arrow { transition: transform 0.3s; color: var(--text-muted); }
         .expandable-row.active i.arrow { transform: rotate(180deg); color: var(--accent-blue); }
         
-        .qc-list { display: none; padding: 5px 10px 5px 20px; background: rgba(0,0,0,0.2); border-left: 2px solid var(--accent-blue); margin-bottom: 5px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; }
-        body.light-mode .qc-list { background: rgba(0,0,0,0.03); }
+        /* التعديل السحري للقوائم (شريط تمرير وحجم أقصى) */
+        .qc-list, .qc-contributions-list { 
+            display: none; padding: 5px 10px 5px 20px; background: rgba(0,0,0,0.2); 
+            border-left: 2px solid var(--accent-blue); margin-bottom: 5px; 
+            border-bottom-right-radius: 4px; border-bottom-left-radius: 4px;
+            max-height: 220px; overflow-y: auto; /* هنا ضفنا التمرير */
+        }
+        body.light-mode .qc-list, body.light-mode .qc-contributions-list { background: rgba(0,0,0,0.03); }
+        
+        /* تجميل شكل شريط التمرير */
+        .qc-list::-webkit-scrollbar, .qc-contributions-list::-webkit-scrollbar { width: 5px; }
+        .qc-list::-webkit-scrollbar-track, .qc-contributions-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 5px; }
+        .qc-list::-webkit-scrollbar-thumb, .qc-contributions-list::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 5px; }
+
         .qc-list-item { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
         body.light-mode .qc-list-item { border-bottom: 1px solid rgba(0,0,0,0.05); color: #555; }
         .qc-list-item:last-child { border-bottom: none; }
@@ -176,7 +187,7 @@
             .header-right { width: 100%; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
             .filter-bar { flex-direction: column; align-items: stretch; gap: 10px; }
             .filter-group { width: 100%; }
-            .status-indicator { width: 100%; justify-content: center; margin-top: 5px; }
+            .update-badge { width: 100%; min-width: unset; margin-left: 0; }
         }
     </style>
 </head>
@@ -230,14 +241,16 @@
                     <option value="Over Night">Overnight</option>
                 </select>
             </div>
-            <div class="status-indicator">
-                <span id="networkDot" class="status-dot online"></span>
-                <span id="networkText" class="network-text online">Online</span>
-                <span style="margin: 0 5px;">|</span>
-                Auto-Refresh Active
-                <span id="reloadIndicator" class="reload-indicator" style="display: none;">
-                    <i class="fas fa-sync-alt"></i> Loading...
-                </span>
+            
+            <div class="update-badge" id="updateBadge">
+                <div class="update-title-row">
+                    <span>Last Updated :</span>
+                    <div title="Network Status">
+                        <span id="networkDot" class="status-dot online"></span>
+                    </div>
+                </div>
+                <div class="update-time" id="lastUpdateTime">Fetching data...</div>
+                <div class="update-next" id="nextUpdateTimer">Next update in: --:--</div>
             </div>
         </div>
 
@@ -342,22 +355,45 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycby68-MKyOgHHn74AwCbUHV2mnMy6EjpIjV8UUHSFQ6DtVmG-duUrN0qNCL-OswRQS5Tsw/exec";
         let currentUser = "";
+        
+        // إعدادات وقت التحديث الجديد
+        const REFRESH_INTERVAL_SECONDS = 60; // التحديث كل 60 ثانية (دقيقة واحدة)
+        let nextUpdateSeconds = REFRESH_INTERVAL_SECONDS;
         let refreshInterval;
+        let countdownTimer;
+        
         let cachedData = {}; 
         let filterChangeTimeout = null; 
         let currentFetchId = 0;        
         let currentFetchContext = "";  
         let lastTotalTasks = 0;        
 
+        function updateCountdownDisplay() {
+            if (!navigator.onLine) return; // لو النت قاطع مش هنحدث العداد
+            let m = Math.floor(nextUpdateSeconds / 60);
+            let s = nextUpdateSeconds % 60;
+            $('#nextUpdateTimer').text(`Next update in: ${m}:${s < 10 ? '0' : ''}${s}`);
+        }
+
+        function updateLastUpdatedTime() {
+            const now = new Date();
+            const options = { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+            $('#lastUpdateTime').text(now.toLocaleString('en-US', options));
+            
+            // إعادة ضبط العداد
+            nextUpdateSeconds = REFRESH_INTERVAL_SECONDS;
+            updateCountdownDisplay();
+        }
+
         function updateOnlineStatus() {
             if (navigator.onLine) {
                 $('#networkDot').removeClass('offline').addClass('online');
-                $('#networkText').text('Online').removeClass('offline').addClass('online');
+                if(nextUpdateSeconds <= 0) nextUpdateSeconds = 1; // لو العداد صفر، خليه يلف فوراً
+                updateCountdownDisplay();
                 if (currentUser) fetchStats(false);
             } else {
                 $('#networkDot').removeClass('online').addClass('offline');
-                $('#networkText').text('Offline').removeClass('online').addClass('offline');
-                $('#reloadIndicator').fadeOut(200);
+                $('#nextUpdateTimer').text('Offline - Paused');
             }
         }
         window.addEventListener('online', updateOnlineStatus);
@@ -387,6 +423,14 @@
             const dateStr = today.toISOString().split('T')[0];
             $('#taskDate').val(dateStr);
             $('#dynamicShiftTitle').text('Total Tasks for the ' + $('#shiftSelect').val());
+
+            // تشغيل العداد التنازلي كل ثانية
+            countdownTimer = setInterval(() => {
+                if (nextUpdateSeconds > 0 && navigator.onLine && currentUser) {
+                    nextUpdateSeconds--;
+                    updateCountdownDisplay();
+                }
+            }, 1000);
         });
 
         function toggleSummary() {
@@ -414,12 +458,11 @@
                         $('#userNameDisplay').text(currentUser);
                         
                         lastTotalTasks = 0; 
-                        $('#reloadIndicator').fadeIn(200);
                         $('.main-stats, .unit-section, .summary-section, .achievers-banner').addClass('fetching-data');
                         
                         fetchStats(false); 
                         clearInterval(refreshInterval);
-                        refreshInterval = setInterval(() => fetchStats(false), 5000); 
+                        refreshInterval = setInterval(() => fetchStats(false), REFRESH_INTERVAL_SECONDS * 1000); 
                     } else {
                         showLoading(false); 
                         $('#loginError').fadeIn().delay(3000).fadeOut();
@@ -433,9 +476,9 @@
 
         function handleFilterChange() {
             if (!navigator.onLine) { alert("You are offline. Reconnect to change filters."); return; }
-            $('#reloadIndicator').fadeIn(200);
             $('.main-stats, .unit-section, .summary-section, .achievers-banner').addClass('fetching-data');
             $('#dynamicShiftTitle').text('Total Tasks for the ' + $('#shiftSelect').val());
+            $('#lastUpdateTime').text("Fetching data...");
             
             if (filterChangeTimeout) clearTimeout(filterChangeTimeout);
             filterChangeTimeout = setTimeout(function() { fetchStats(false); }, 300);
@@ -458,7 +501,8 @@
 
                     if (isInitialLoad) showLoading(false);
                     $('.main-stats, .unit-section, .summary-section, .achievers-banner').removeClass('fetching-data');
-                    $('#reloadIndicator').fadeOut(200);
+                    
+                    updateLastUpdatedTime(); // تحديث الوقت والعداد
 
                     if (response.success) {
                         if (currentFetchContext !== fetchContext) {
@@ -478,7 +522,6 @@
                     if (fetchId !== currentFetchId) return;
                     if (isInitialLoad) showLoading(false);
                     $('.main-stats, .unit-section, .summary-section, .achievers-banner').removeClass('fetching-data');
-                    $('#reloadIndicator').fadeOut(200);
                     console.error("Fetch Stats Error:", error);
                     updateOnlineStatus(); 
                 });
@@ -606,9 +649,6 @@
                 </div>
             `;
 
-            // ==========================================
-            // التعديل الجديد: جعل قسم الـ QC Contributions قابل للطي (Accordion)
-            // ==========================================
             if(unitData.roomQcTotals && Object.keys(unitData.roomQcTotals).length > 0) {
                 let qcsCount = Object.keys(unitData.roomQcTotals).length;
                 
@@ -624,7 +664,6 @@
                                 
                                 <div class="qc-contributions-list" style="display: none; margin-top: 8px; padding-left: 5px;">`;
                 
-                // ترتيب الـ QCs من الأعلى للأقل بناءً على الإجمالي
                 const sortedRoomQcs = Object.keys(unitData.roomQcTotals).sort((a,b) => unitData.roomQcTotals[b].total - unitData.roomQcTotals[a].total);
                 
                 for(let qc of sortedRoomQcs) {
@@ -650,7 +689,7 @@
 
         function closeModal(e) { if(!e || e.target.id === 'unitModal') $('#unitModal').fadeOut(200); }
         function showLoading(show) { if(show) $('#loading').css('display', 'flex'); else $('#loading').css('display', 'none'); }
-        function logout() { clearInterval(refreshInterval); location.reload(); }
+        function logout() { clearInterval(refreshInterval); clearInterval(countdownTimer); location.reload(); }
         $('#password').keypress(function(e) { if(e.which == 13) attemptLogin(); });
     </script>
 </body>
